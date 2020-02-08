@@ -1,6 +1,6 @@
 [package]
-name = "sdltest"
-version = "0.1.0"
+name = "pong_crab"
+version = "1.0"
 authors = ["v0idpwn <v0idpwn@gmail.com>"]
 edition = "2018"
 
