@@ -43,6 +43,8 @@ fn main() {
     let mut bar1 = Bar::new(BORDER, BORDER);
     let mut bar2 = Bar::new(WIDTH - BAR_WIDTH - BORDER, BORDER);
     let mut ball = Ball::new(WIDTH/2, HEIGHT/2);
+    let mut score1 = 0 as u32;
+    let mut score2 = 0 as u32;
 
     'running: loop {
         for event in event_pump.poll_iter() {
@@ -92,9 +94,20 @@ fn main() {
             }
         }
 
+        // Game routines
+        match goal_check(ball){
+            (true, 1) => {score1 += 1; ball.set_position(WIDTH/2, HEIGHT/2)},
+            (true, 2) => {score2 += 1; ball.set_position(WIDTH/2, HEIGHT/2)},
+            _ => {}
+        }
+
         ball.update_pos();
+
+        println!("{} x {}", score1, score2);
+
         ball.update_momentum(get_new_momentum(ball, bar1, bar2));
 
+        // Drawing on screen
         canvas.set_draw_color(BLACK);
         canvas.clear();
         canvas.set_draw_color(GREEN);
@@ -126,6 +139,7 @@ fn main() {
 
     fn get_new_momentum(ball: Ball, bar1: Bar, bar2: Bar) -> Momentum {
         let mut new_momentum = ball.momentum;
+
         if ball.pos_y <= BORDER {
             new_momentum = Momentum{dy: 2, dx: ball.momentum.dx}
         } else if ball.pos_y >= (HEIGHT - BORDER - BALL_HEIGHT) {
@@ -173,5 +187,20 @@ fn main() {
             (x, 4) if x > WIDTH / 2 => Momentum { dx: -1, dy: 2 },
             _ => Momentum { dx: 0, dy: 0 },
         }
+    }
+
+    fn goal_check(ball: Ball) -> (bool, u32){
+        let mut goal_happened = false;
+        let mut goal_for = 0;
+
+        if ball.pos_x > WIDTH - CONTACT_THRESHOULD {
+            goal_happened = true;
+            goal_for = 1;
+        } else if ball.pos_x < CONTACT_THRESHOULD {
+            goal_happened = true;
+            goal_for = 2;
+        }
+
+        (goal_happened, goal_for)
     }
 }

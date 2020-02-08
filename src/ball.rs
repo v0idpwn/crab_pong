@@ -37,6 +37,11 @@ impl Ball {
         }
     }
 
+    pub fn set_position(&mut self, x: u32, y: u32) -> () {
+        self.pos_x = x;
+        self.pos_y = y;
+    }
+
     pub fn update_momentum(&mut self, m: Momentum) -> () {
         self.momentum = m;
         println!("pos_x: {}, pos_y: {}, dx: {}, dy: {}", self.pos_x, self.pos_y, m.dx, m.dy);
