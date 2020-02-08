@@ -9,6 +9,10 @@ mod ball;
 use bar::Bar;
 use ball::Ball;
 
+const MOVESPEED: i32 = 15;
+const BLACK: Color = Color::RGB(0, 0, 0);
+const GREEN: Color = Color::RGB(161, 209, 174);
+
 fn main() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -21,7 +25,7 @@ fn main() {
 
     let mut canvas = window.into_canvas().build().unwrap();
 
-    canvas.set_draw_color(Color::RGB(0, 255, 255));
+    canvas.set_draw_color(BLACK);
     canvas.clear();
     canvas.present();
 
@@ -36,19 +40,19 @@ fn main() {
                 Event::KeyDown {
                     keycode: Some(Keycode::S),
                     ..
-                } => if !is_at_bottom_border(bar1) {bar1.mv(5)} else {},
+                } => if !is_at_bottom_border(bar1) {bar1.mv(MOVESPEED)} else {},
                 Event::KeyDown {
                     keycode: Some(Keycode::W),
                     ..
-                } => if !is_at_top_border(bar1) {bar1.mv(-5)} else {},
+                } => if !is_at_top_border(bar1) {bar1.mv(-MOVESPEED)} else {},
                 Event::KeyDown {
                     keycode: Some(Keycode::Down),
                     ..
-                } => if !is_at_bottom_border(bar2) {bar2.mv(5)} else {},
+                } => if !is_at_bottom_border(bar2) {bar2.mv(MOVESPEED)} else {},
                 Event::KeyDown {
                     keycode: Some(Keycode::Up),
                     ..
-                } => if !is_at_top_border(bar2) {bar2.mv(-5)} else {},
+                } => if !is_at_top_border(bar2) {bar2.mv(-MOVESPEED)} else {},
                 Event::Quit { .. }
                 | Event::KeyDown {
                     keycode: Some(Keycode::Escape),
@@ -60,9 +64,9 @@ fn main() {
 
         ball.update_pos();
 
-        canvas.set_draw_color(Color::RGB(0, 0, 0));
+        canvas.set_draw_color(BLACK);
         canvas.clear();
-        canvas.set_draw_color(Color::RGB(161, 209, 174));
+        canvas.set_draw_color(GREEN);
 
         let rect = bar1.to_rect();
         let rect2 = bar2.to_rect();
