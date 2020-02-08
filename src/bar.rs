@@ -1,8 +1,8 @@
 pub struct Bar {
-    pos_x: i32,
-    pos_y: i32,
-    heigth: i32,
-    width: i32,
+    pub pos_x: i32,
+    pub pos_y: i32,
+    pub heigth: u32,
+    pub width: u32,
 }
 
 impl Bar {
