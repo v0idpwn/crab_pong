@@ -5,7 +5,9 @@ use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
 use std::time::Duration;
 mod bar;
+mod ball;
 use bar::Bar;
+use ball::Ball;
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -26,6 +28,7 @@ fn main() {
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut bar1 = Bar::new(20, 20);
     let mut bar2 = Bar::new(740, 20);
+    let mut ball = Ball::new(400, 300);
 
     'running: loop {
         for event in event_pump.poll_iter() {
@@ -62,16 +65,20 @@ fn main() {
 
         let rect = bar1.to_rect();
         let rect2 = bar2.to_rect();
+        let ball_rect = ball.to_rect();
 
         canvas.draw_rect(rect).unwrap();
         canvas.fill_rect(rect).unwrap();
         canvas.draw_rect(rect2).unwrap();
         canvas.fill_rect(rect2).unwrap();
+        canvas.draw_rect(ball_rect).unwrap();
+        canvas.fill_rect(ball_rect).unwrap();
         canvas.present();
 
         ::std::thread::sleep(Duration::new(0, 1000000000u32 / 60));
     }
 
+    // Helpers
     fn is_at_top_border(bar: Bar) -> bool{
         bar.pos_y <= 20
     }
