@@ -38,6 +38,14 @@ fn main() {
                     keycode: Some(Keycode::W),
                     ..
                 } => bar1.mv(-5),
+                Event::KeyDown {
+                    keycode: Some(Keycode::Down),
+                    ..
+                } => bar2.mv(5),
+                Event::KeyDown {
+                    keycode: Some(Keycode::Up),
+                    ..
+                } => bar2.mv(-5),
                 Event::Quit { .. }
                 | Event::KeyDown {
                     keycode: Some(Keycode::Escape),
@@ -51,8 +59,11 @@ fn main() {
 
         canvas.set_draw_color(Color::RGB(161, 209, 174));
         let rect = Rect::new(bar1.pos_x, bar1.pos_y, bar1.width, bar1.heigth);
+        let rect2 = Rect::new(bar2.pos_x, bar2.pos_y, bar2.width, bar2.heigth);
         canvas.draw_rect(rect).unwrap();
         canvas.fill_rect(rect).unwrap();
+        canvas.draw_rect(rect2).unwrap();
+        canvas.fill_rect(rect2).unwrap();
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1000000000u32 / 60));
