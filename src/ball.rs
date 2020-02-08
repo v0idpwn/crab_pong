@@ -44,7 +44,6 @@ impl Ball {
 
     pub fn update_momentum(&mut self, m: Momentum) -> () {
         self.momentum = m;
-        println!("pos_x: {}, pos_y: {}, dx: {}, dy: {}", self.pos_x, self.pos_y, m.dx, m.dy);
     }
 
     pub fn to_rect(&self) -> Rect {
