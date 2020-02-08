@@ -1,6 +1,6 @@
 [package]
-name = "pong_crab"
-version = "1.0"
+name = "crab_pong"
+version = "1.0.0"
 authors = ["v0idpwn <v0idpwn@gmail.com>"]
 edition = "2018"
 

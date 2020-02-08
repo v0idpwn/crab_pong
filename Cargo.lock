@@ -13,6 +13,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
 
 [[package]]
+name = "crab_pong"
+version = "1.0.0"
+dependencies = [
+ "sdl2",
+]
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -44,11 +51,4 @@ checksum = "c2e1deb61ff274d29fb985017d4611d4004b113676eaa9c06754194caf82094e"
 dependencies = [
  "cfg-if",
  "libc",
-]
-
-[[package]]
-name = "sdltest"
-version = "0.1.0"
-dependencies = [
- "sdl2",
 ]
