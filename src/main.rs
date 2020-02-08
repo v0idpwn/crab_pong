@@ -98,18 +98,18 @@ fn main() {
         match goal_check(ball) {
             (true, 1) => {
                 score1 += 1;
-                ball.set_position(WIDTH / 2, HEIGHT / 2)
+                ball.set_position(WIDTH / 2, HEIGHT / 2);
+                println!("{} x {}", score1, score2);
             }
             (true, 2) => {
                 score2 += 1;
-                ball.set_position(WIDTH / 2, HEIGHT / 2)
+                ball.set_position(WIDTH / 2, HEIGHT / 2);
+                println!("{} x {}", score1, score2);
             }
             _ => {}
         }
 
         ball.update_pos();
-
-        println!("{} x {}", score1, score2);
 
         ball.update_momentum(get_new_momentum(ball, bar1, bar2));
 
