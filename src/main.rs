@@ -158,25 +158,11 @@ fn main() {
         } else if ball.pos_x <= (BORDER + bar1.width + CONTACT_THRESHOULD) {
             if test_collision(ball, bar1) {
                 new_momentum = calc_new_momentum(ball, bar1);
-                println!("Colidiu, porra!");
             }
-            println!("Área de colisão da bar1!");
         } else if ball.pos_x >= (WIDTH - BORDER - bar2.width - CONTACT_THRESHOULD - ball.width) {
             if test_collision(ball, bar2) {
                 new_momentum = calc_new_momentum(ball, bar2);
-                println!("Colidiu, porra!");
-                println!(
-                    "{}, {}, {}, {}",
-                    HEIGHT,
-                    bar2.width,
-                    CONTACT_THRESHOULD,
-                    HEIGHT - bar2.width - CONTACT_THRESHOULD
-                )
             }
-            println!(
-                "Área de colisão da bar2! ball_y: {}, bar_y: {}",
-                ball.pos_y, bar2.pos_y
-            );
         } else {
         }
 
