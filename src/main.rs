@@ -58,9 +58,10 @@ fn main() {
             }
         }
 
+        ball.update_pos();
+
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
-
         canvas.set_draw_color(Color::RGB(161, 209, 174));
 
         let rect = bar1.to_rect();
