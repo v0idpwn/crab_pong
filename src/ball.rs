@@ -1,33 +1,48 @@
 use sdl2::rect::Rect;
 
+use crate::momentum::Momentum;
+
 #[derive(Copy, Clone)]
 pub struct Ball {
-    pub pos_x: i32,
-    pub pos_y: i32,
+    pub pos_x: u32,
+    pub pos_y: u32,
     pub heigth: u32,
     pub width: u32,
-    pub dx: i32,
-    pub dy: i32,
+    pub momentum: Momentum
 }
 
 impl Ball {
-    pub fn new(pos_x: i32, pos_y: i32) -> Ball {
+    pub fn new(pos_x: u32, pos_y: u32) -> Ball {
         Ball {
             pos_x: pos_x,
             pos_y: pos_y,
             heigth: 20,
             width: 20,
-            dx: 5,
-            dy: 3,
+            momentum: Momentum {dx: 2, dy: 1}
         }
     }
 
+    // This is plain stupid
     pub fn update_pos(&mut self) -> () {
-        self.pos_x += self.dx;
-        self.pos_y += self.dy;
+        if self.momentum.dx > 0 {
+            self.pos_x += self.momentum.dx as u32;
+        } else {
+            self.pos_x -= self.momentum.dx.abs() as u32;
+        }
+
+        if self.momentum.dy > 0 {
+            self.pos_y += self.momentum.dy as u32;
+        } else {
+            self.pos_y -= self.momentum.dy.abs() as u32;
+        }
+    }
+
+    pub fn update_momentum(&mut self, m: Momentum) -> () {
+        self.momentum = m;
+        println!("pos_x: {}, pos_y: {}, dx: {}, dy: {}", self.pos_x, self.pos_y, m.dx, m.dy);
     }
 
     pub fn to_rect(&self) -> Rect {
-        Rect::new(self.pos_x, self.pos_y, self.width, self.heigth)
+        Rect::new(self.pos_x as i32, self.pos_y as i32, self.width, self.heigth)
     }
 }
