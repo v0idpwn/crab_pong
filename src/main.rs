@@ -3,7 +3,6 @@ extern crate sdl2;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
-use sdl2::rect::Rect;
 use std::time::Duration;
 mod bar;
 use bar::Bar;
@@ -61,8 +60,8 @@ fn main() {
 
         canvas.set_draw_color(Color::RGB(161, 209, 174));
 
-        let rect = Rect::new(bar1.pos_x, bar1.pos_y, bar1.width, bar1.heigth);
-        let rect2 = Rect::new(bar2.pos_x, bar2.pos_y, bar2.width, bar2.heigth);
+        let rect = bar1.to_rect();
+        let rect2 = bar2.to_rect();
 
         canvas.draw_rect(rect).unwrap();
         canvas.fill_rect(rect).unwrap();
