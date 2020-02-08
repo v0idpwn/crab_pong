@@ -42,7 +42,7 @@ fn main() {
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut bar1 = Bar::new(BORDER, BORDER);
     let mut bar2 = Bar::new(WIDTH - BAR_WIDTH - BORDER, BORDER);
-    let mut ball = Ball::new(WIDTH/2, HEIGHT/2);
+    let mut ball = Ball::new(WIDTH / 2, HEIGHT / 2);
     let mut score1 = 0 as u32;
     let mut score2 = 0 as u32;
 
@@ -95,9 +95,15 @@ fn main() {
         }
 
         // Game routines
-        match goal_check(ball){
-            (true, 1) => {score1 += 1; ball.set_position(WIDTH/2, HEIGHT/2)},
-            (true, 2) => {score2 += 1; ball.set_position(WIDTH/2, HEIGHT/2)},
+        match goal_check(ball) {
+            (true, 1) => {
+                score1 += 1;
+                ball.set_position(WIDTH / 2, HEIGHT / 2)
+            }
+            (true, 2) => {
+                score2 += 1;
+                ball.set_position(WIDTH / 2, HEIGHT / 2)
+            }
             _ => {}
         }
 
@@ -132,7 +138,6 @@ fn main() {
         bar.pos_y <= BORDER
     }
 
-    // Problem: we are considering a hardcoded 160 height for the bars
     fn is_at_bottom_border(bar: Bar) -> bool {
         bar.pos_y >= HEIGHT - BAR_HEIGHT - BORDER
     }
@@ -141,9 +146,15 @@ fn main() {
         let mut new_momentum = ball.momentum;
 
         if ball.pos_y <= BORDER {
-            new_momentum = Momentum{dy: 2, dx: ball.momentum.dx}
+            new_momentum = Momentum {
+                dy: 2,
+                dx: ball.momentum.dx,
+            }
         } else if ball.pos_y >= (HEIGHT - BORDER - BALL_HEIGHT) {
-            new_momentum = Momentum{dy: -2, dx: ball.momentum.dx}
+            new_momentum = Momentum {
+                dy: -2,
+                dx: ball.momentum.dx,
+            }
         } else if ball.pos_x <= (BORDER + bar1.width + CONTACT_THRESHOULD) {
             if test_collision(ball, bar1) {
                 new_momentum = calc_new_momentum(ball, bar1);
@@ -154,7 +165,13 @@ fn main() {
             if test_collision(ball, bar2) {
                 new_momentum = calc_new_momentum(ball, bar2);
                 println!("Colidiu, porra!");
-                println!("{}, {}, {}, {}", HEIGHT, bar2.width, CONTACT_THRESHOULD, HEIGHT - bar2.width - CONTACT_THRESHOULD)
+                println!(
+                    "{}, {}, {}, {}",
+                    HEIGHT,
+                    bar2.width,
+                    CONTACT_THRESHOULD,
+                    HEIGHT - bar2.width - CONTACT_THRESHOULD
+                )
             }
             println!(
                 "Área de colisão da bar2! ball_y: {}, bar_y: {}",
@@ -189,14 +206,14 @@ fn main() {
         }
     }
 
-    fn goal_check(ball: Ball) -> (bool, u32){
+    fn goal_check(ball: Ball) -> (bool, u32) {
         let mut goal_happened = false;
         let mut goal_for = 0;
 
-        if ball.pos_x > WIDTH - CONTACT_THRESHOULD {
+        if ball.pos_x > WIDTH - (2 * BORDER) {
             goal_happened = true;
             goal_for = 1;
-        } else if ball.pos_x < CONTACT_THRESHOULD {
+        } else if ball.pos_x < (2 * BORDER) {
             goal_happened = true;
             goal_for = 2;
         }
