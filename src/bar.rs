@@ -14,7 +14,7 @@ impl Bar {
             pos_x: pos_x,
             pos_y: pos_y,
             heigth: 160,
-            width: 40
+            width: 40,
         }
     }
 
@@ -27,6 +27,11 @@ impl Bar {
     }
 
     pub fn to_rect(&self) -> Rect {
-        Rect::new(self.pos_x as i32, self.pos_y as i32, self.width, self.heigth)
+        Rect::new(
+            self.pos_x as i32,
+            self.pos_y as i32,
+            self.width,
+            self.heigth,
+        )
     }
 }

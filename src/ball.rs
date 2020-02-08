@@ -8,7 +8,7 @@ pub struct Ball {
     pub pos_y: u32,
     pub heigth: u32,
     pub width: u32,
-    pub momentum: Momentum
+    pub momentum: Momentum,
 }
 
 impl Ball {
@@ -18,7 +18,7 @@ impl Ball {
             pos_y: pos_y,
             heigth: 20,
             width: 20,
-            momentum: Momentum {dx: 2, dy: 1}
+            momentum: Momentum { dx: 2, dy: 1 },
         }
     }
 
@@ -47,6 +47,11 @@ impl Ball {
     }
 
     pub fn to_rect(&self) -> Rect {
-        Rect::new(self.pos_x as i32, self.pos_y as i32, self.width, self.heigth)
+        Rect::new(
+            self.pos_x as i32,
+            self.pos_y as i32,
+            self.width,
+            self.heigth,
+        )
     }
 }
