@@ -147,12 +147,12 @@ fn main() {
 
         if ball.pos_y <= BORDER {
             new_momentum = Momentum {
-                dy: 2,
+                dy: -ball.momentum.dy,
                 dx: ball.momentum.dx,
             }
         } else if ball.pos_y >= (HEIGHT - BORDER - BALL_HEIGHT) {
             new_momentum = Momentum {
-                dy: -2,
+                dy: -ball.momentum.dy,
                 dx: ball.momentum.dx,
             }
         } else if ball.pos_x <= (BORDER + bar1.width + CONTACT_THRESHOULD) {
@@ -188,20 +188,20 @@ fn main() {
     }
 
     fn calc_new_momentum(ball: Ball, colliding_bar: Bar) -> Momentum {
-        let bar_fragment_size = colliding_bar.heigth / 4;
+        let bar_fragment_size = colliding_bar.heigth / 5;
         let bar_fragment_touched = (ball.pos_y - colliding_bar.pos_y) / bar_fragment_size;
 
         match (ball.pos_x, bar_fragment_touched) {
-            (x, 0) if x < WIDTH / 2 => Momentum { dx: 1, dy: -2 },
-            (x, 1) if x < WIDTH / 2 => Momentum { dx: 2, dy: -1 },
-            (x, 2) if x < WIDTH / 2 => Momentum { dx: 2, dy: 1 },
-            (x, 3) if x < WIDTH / 2 => Momentum { dx: 1, dy: 2 },
-            (x, 4) if x < WIDTH / 2 => Momentum { dx: 1, dy: 2 },
-            (x, 0) if x > WIDTH / 2 => Momentum { dx: -1, dy: -2 },
-            (x, 1) if x > WIDTH / 2 => Momentum { dx: -2, dy: -1 },
-            (x, 2) if x > WIDTH / 2 => Momentum { dx: -2, dy: 1 },
-            (x, 3) if x > WIDTH / 2 => Momentum { dx: -1, dy: 2 },
-            (x, 4) if x > WIDTH / 2 => Momentum { dx: -1, dy: 2 },
+            (x, 0) if x < WIDTH / 2 => Momentum { dx: 1, dy: -3 },
+            (x, 1) if x < WIDTH / 2 => Momentum { dx: 2, dy: -2 },
+            (x, 2) if x < WIDTH / 2 => Momentum { dx: 3, dy: 1 },
+            (x, 3) if x < WIDTH / 2 => Momentum { dx: 2, dy: 2 },
+            (x, 4) if x < WIDTH / 2 => Momentum { dx: 1, dy: 3 },
+            (x, 0) if x > WIDTH / 2 => Momentum { dx: -1, dy: -3 },
+            (x, 1) if x > WIDTH / 2 => Momentum { dx: -2, dy: -2 },
+            (x, 2) if x > WIDTH / 2 => Momentum { dx: -3, dy: 1 },
+            (x, 3) if x > WIDTH / 2 => Momentum { dx: -2, dy: 2 },
+            (x, 4) if x > WIDTH / 2 => Momentum { dx: -1, dy: 3 },
             _ => Momentum { dx: 0, dy: 0 },
         }
     }
