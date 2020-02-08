@@ -16,13 +16,19 @@ const MOVESPEED: i32 = 15;
 const CONTACT_THRESHOULD: u32 = 2;
 const BLACK: Color = Color::RGB(0, 0, 0);
 const GREEN: Color = Color::RGB(161, 209, 174);
+const WIDTH: u32 = 800;
+const HEIGHT: u32 = 600;
+const BORDER: u32 = 20;
+const BAR_HEIGHT: u32 = 160;
+const BAR_WIDTH: u32 = 40;
+const BALL_HEIGHT: u32 = 20;
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
 
     let window = video_subsystem
-        .window("test-sdl2", 800, 600)
+        .window("test-sdl2", WIDTH, HEIGHT)
         .position_centered()
         .build()
         .unwrap();
@@ -34,9 +40,9 @@ fn main() {
     canvas.present();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
-    let mut bar1 = Bar::new(20, 20);
-    let mut bar2 = Bar::new(740, 20);
-    let mut ball = Ball::new(400, 300);
+    let mut bar1 = Bar::new(BORDER, BORDER);
+    let mut bar2 = Bar::new(WIDTH - BAR_WIDTH - BORDER, BORDER);
+    let mut ball = Ball::new(WIDTH/2, HEIGHT/2);
 
     'running: loop {
         for event in event_pump.poll_iter() {
@@ -110,31 +116,31 @@ fn main() {
 
     // Helpers
     fn is_at_top_border(bar: Bar) -> bool {
-        bar.pos_y <= 20
+        bar.pos_y <= BORDER
     }
 
     // Problem: we are considering a hardcoded 160 height for the bars
     fn is_at_bottom_border(bar: Bar) -> bool {
-        bar.pos_y >= 420
+        bar.pos_y >= HEIGHT - BAR_HEIGHT - BORDER
     }
 
     fn get_new_momentum(ball: Ball, bar1: Bar, bar2: Bar) -> Momentum {
         let mut new_momentum = ball.momentum;
-        if ball.pos_y <= 20 {
+        if ball.pos_y <= BORDER {
             new_momentum = Momentum{dy: 2, dx: ball.momentum.dx}
-        } else if ball.pos_y >= 560 {
+        } else if ball.pos_y >= (HEIGHT - BORDER - BALL_HEIGHT) {
             new_momentum = Momentum{dy: -2, dx: ball.momentum.dx}
-        } else if ball.pos_x <= (20 + bar1.width + CONTACT_THRESHOULD) {
+        } else if ball.pos_x <= (BORDER + bar1.width + CONTACT_THRESHOULD) {
             if test_collision(ball, bar1) {
                 new_momentum = calc_new_momentum(ball, bar1);
                 println!("Colidiu, porra!");
             }
             println!("Área de colisão da bar1!");
-        } else if ball.pos_x >= (780 - bar2.width - CONTACT_THRESHOULD - ball.width) {
+        } else if ball.pos_x >= (WIDTH - BORDER - bar2.width - CONTACT_THRESHOULD - ball.width) {
             if test_collision(ball, bar2) {
                 new_momentum = calc_new_momentum(ball, bar2);
                 println!("Colidiu, porra!");
-                println!("{}, {}, {}, {}", 800, bar2.width, CONTACT_THRESHOULD, 800 - bar2.width - CONTACT_THRESHOULD)
+                println!("{}, {}, {}, {}", HEIGHT, bar2.width, CONTACT_THRESHOULD, HEIGHT - bar2.width - CONTACT_THRESHOULD)
             }
             println!(
                 "Área de colisão da bar2! ball_y: {}, bar_y: {}",
@@ -155,16 +161,16 @@ fn main() {
         let bar_fragment_touched = (ball.pos_y - colliding_bar.pos_y) / bar_fragment_size;
 
         match (ball.pos_x, bar_fragment_touched) {
-            (x, 0) if x < 400 => Momentum { dx: 1, dy: -2 },
-            (x, 1) if x < 400 => Momentum { dx: 2, dy: -1 },
-            (x, 2) if x < 400 => Momentum { dx: 2, dy: 1 },
-            (x, 3) if x < 400 => Momentum { dx: 1, dy: 2 },
-            (x, 4) if x < 400 => Momentum { dx: 1, dy: 2 },
-            (x, 0) if x > 400 => Momentum { dx: -1, dy: -2 },
-            (x, 1) if x > 400 => Momentum { dx: -2, dy: -1 },
-            (x, 2) if x > 400 => Momentum { dx: -2, dy: 1 },
-            (x, 3) if x > 400 => Momentum { dx: -1, dy: 2 },
-            (x, 4) if x > 400 => Momentum { dx: -1, dy: 2 },
+            (x, 0) if x < WIDTH / 2 => Momentum { dx: 1, dy: -2 },
+            (x, 1) if x < WIDTH / 2 => Momentum { dx: 2, dy: -1 },
+            (x, 2) if x < WIDTH / 2 => Momentum { dx: 2, dy: 1 },
+            (x, 3) if x < WIDTH / 2 => Momentum { dx: 1, dy: 2 },
+            (x, 4) if x < WIDTH / 2 => Momentum { dx: 1, dy: 2 },
+            (x, 0) if x > WIDTH / 2 => Momentum { dx: -1, dy: -2 },
+            (x, 1) if x > WIDTH / 2 => Momentum { dx: -2, dy: -1 },
+            (x, 2) if x > WIDTH / 2 => Momentum { dx: -2, dy: 1 },
+            (x, 3) if x > WIDTH / 2 => Momentum { dx: -1, dy: 2 },
+            (x, 4) if x > WIDTH / 2 => Momentum { dx: -1, dy: 2 },
             _ => Momentum { dx: 0, dy: 0 },
         }
     }
